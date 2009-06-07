@@ -25,6 +25,7 @@ Library
   Build-Depends:       base<5
   Exposed-Modules:     
                        Data.Proof.EQ
+                       Data.IsTy
                        Data.Ty
   ghc-options:         -Wall
 

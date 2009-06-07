@@ -12,9 +12,7 @@
 -- Typed typerefs
 ----------------------------------------------------------------------
 
-module Data.Ty
-  (Ty,tyEq,tyOf,ty)
-  where
+module Data.Ty (Ty,tyRep,tyOf,module Data.IsTy) where
 
 
 import Data.Typeable (Typeable,TypeRep,typeOf)
@@ -22,16 +20,19 @@ import Unsafe.Coerce (unsafeCoerce)
 
 import Data.Proof.EQ ((:=:)(..))
 
-data Ty a = Ty { unTy :: TypeRep }
+import Data.IsTy
 
-instance Show (Ty a) where show = show . unTy
+-- | Phantom type wrapper around a 'TypeRep'
+data Ty a = Ty { tyRep :: TypeRep }
 
-tyEq :: Ty a -> Ty b -> Maybe (a :=: b)
-Ty a `tyEq` Ty b | a == b    = unsafeCoerce (Just Refl)
-                 | otherwise = Nothing
+instance Show (Ty a) where show = show . tyRep
 
-ty :: forall a. Typeable a => Ty a
-ty = tyOf (undefined :: a)
+instance IsTy Ty where
+  Ty a `tyEq` Ty b | a == b    = unsafeCoerce (Just Refl)
+                   | otherwise = Nothing
+  ty = tyOf (undefined :: a)
 
+
+-- | The 'Ty' of a value
 tyOf :: Typeable a => a -> Ty a
 tyOf a = Ty (typeOf a)
