@@ -1,0 +1,13 @@
+[[Category:Packages]]
+
+== Abstract ==
+
+'''proof-eq''' is a simple, one-module package for working with equality proofs.
+
+Besides this wiki page, here are more ways to find out about proof-eq:
+* Visit the [http://hackage.haskell.org/cgi-bin/hackage-scripts/package/proof-eq Hackage page] for library documentation and to download & install.
+* Or install with <tt>cabal install proof-eq</tt>.
+* Get the code repository: <tt>http://code.haskell.org/~conal/code/applicative-numbers</tt>.
+<!-- * See the [[proof-eq/Versions| version history]]. -->
+
+<!-- Please leave comments at the [[Talk:proof-eq|Talk page]]. -->
