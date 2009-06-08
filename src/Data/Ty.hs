@@ -12,7 +12,7 @@
 -- Typed typerefs
 ----------------------------------------------------------------------
 
-module Data.Ty (Ty,tyRep,tyOf,module Data.IsTy) where
+module Data.Ty (Ty,tyRep,ty,tyOf,Typeable,module Data.IsTy) where
 
 
 import Data.Typeable (Typeable,TypeRep,typeOf)
@@ -30,8 +30,9 @@ instance Show (Ty a) where show = show . tyRep
 instance IsTy Ty where
   Ty a `tyEq` Ty b | a == b    = unsafeCoerce (Just Refl)
                    | otherwise = Nothing
-  ty = tyOf (undefined :: a)
 
+ty :: Typeable a => Ty a
+ty = tyOf (undefined :: a)
 
 -- | The 'Ty' of a value
 tyOf :: Typeable a => a -> Ty a
