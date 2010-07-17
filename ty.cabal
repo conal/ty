@@ -1,5 +1,5 @@
 Name:                ty
-Version:             0.0.0
+Version:             0.0.1
 Cabal-Version:       >= 1.2
 Synopsis:            Typed type representations and equality proofs
 Category:            Data
@@ -8,7 +8,7 @@ Description:
   .
   Project wiki page: <http://haskell.org/haskellwiki/ty>
   .
-  Copyright 2009 Conal Elliott; GPLv3 license.
+  Copyright 2009 Conal Elliott; BSD3 license.
 Author:              Conal Elliott 
 Maintainer:          conal@conal.net
 Homepage:            http://haskell.org/haskellwiki/ty
