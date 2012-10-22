@@ -1,5 +1,7 @@
 {-# LANGUAGE TypeOperators, ScopedTypeVariables #-}
 {-# LANGUAGE GADTs, PatternGuards #-}
+{-# LANGUAGE KindSignatures #-} -- AsPairTy
+
 {-# OPTIONS_GHC -Wall #-}
 ----------------------------------------------------------------------
 -- |
@@ -14,13 +16,13 @@
 ----------------------------------------------------------------------
 
 module Data.Ty
-  ( Ty,tyRep,ty,tyOf,tyOf1,tyOf2
-  , valTyEq, valTyEq1, valTyEq2
-  , Typeable,module Data.IsTy
+  ( Typeable,module Data.IsTy
+  , Ty,tyRep,ty,tyOf,tyOf1,tyOf2, (=:=)
+  , AsPairTy(..), asPairTy
   ) where
 
 
-import Data.Typeable (Typeable,TypeRep,typeOf)
+import Data.Typeable (Typeable,TypeRep,typeOf,TyCon,typeRepTyCon,splitTyConApp)
 import Unsafe.Coerce (unsafeCoerce)
 
 import Data.Proof.EQ ((:=:)(..))
@@ -53,11 +55,13 @@ tyOf2 _ = Ty (typeOf (undefined :: a))
 
 -- | Equality of typed values. @'Just' 'Refl'@ means the the types match and the
 -- values match.
-valTyEq :: forall a b. (Typeable a, Typeable b, Eq a) =>
-           a -> b -> Maybe (a :=: b)
-oa `valTyEq` ob
+(=:=) :: forall a b. (Typeable a, Typeable b, Eq a) =>
+         a -> b -> Maybe (a :=: b)
+oa =:= ob
   | Just Refl <- tyOf oa `tyEq` tyOf ob, oa == ob = Just Refl
   | otherwise                                     = Nothing
+
+{-
 
 -- | Equality of wrapped typed values. @'Just' 'Refl'@ means the the types match
 -- and the values match.
@@ -74,3 +78,18 @@ valTyEq2 :: forall g f a b. (Typeable a, Typeable b, Eq (g (f a))) =>
 oa `valTyEq2` ob
   | Just Refl <- tyOf2 oa `tyEq` tyOf2 ob, oa == ob = Just Refl
   | otherwise                                       = Nothing
+
+-}
+
+data AsPairTy :: * -> * where
+  PairTy :: Ty a -> Ty b -> AsPairTy (a, b)
+
+pairCon :: TyCon
+pairCon = typeRepTyCon (typeOf (False,True))
+
+asPairTy :: Ty t -> Maybe (AsPairTy t)
+asPairTy (Ty t) | con == pairCon = unsafeCoerce (Just (PairTy (Ty a) (Ty b)))
+                | otherwise      = Nothing
+ where
+   (con,args) = splitTyConApp t
+   [a,b] = args
