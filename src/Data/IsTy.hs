@@ -1,4 +1,6 @@
 {-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE TypeFamilies, ConstraintKinds, KindSignatures
+           , FlexibleInstances, MultiParamTypeClasses #-}
 {-# OPTIONS_GHC -Wall #-}
 ----------------------------------------------------------------------
 -- |
@@ -14,8 +16,16 @@
 
 module Data.IsTy (IsTy(..)) where
 
+import GHC.Prim (Constraint)
+
 import Data.Proof.EQ ((:=:))
+
+class Yes (f :: * -> *) a
+instance Yes f a
 
 -- | Type class for typed type representations
 class IsTy ty where
-  tyEq :: ty a -> ty b -> Maybe (a :=: b)
+  type IsTyConstraint ty z :: Constraint
+  type IsTyConstraint ty z = Yes ty z
+  tyEq :: (IsTyConstraint ty a, IsTyConstraint ty b) =>
+          ty a -> ty b -> Maybe (a :=: b)
