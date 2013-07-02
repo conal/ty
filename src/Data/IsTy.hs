@@ -14,7 +14,7 @@
 -- Type class for typed type representations
 ----------------------------------------------------------------------
 
-module Data.IsTy (IsTy(..)) where
+module Data.IsTy (IsTy(..),IsTy2(..)) where
 
 import GHC.Prim (Constraint)
 
@@ -24,8 +24,18 @@ class Yes (f :: * -> *) a
 instance Yes f a
 
 -- | Type class for typed type representations
-class IsTy ty where
-  type IsTyConstraint ty z :: Constraint
-  type IsTyConstraint ty z = Yes ty z
-  tyEq :: (IsTyConstraint ty a, IsTyConstraint ty b) =>
-          ty a -> ty b -> Maybe (a :=: b)
+class IsTy f where
+  type IsTyConstraint f z :: Constraint
+  type IsTyConstraint f z = Yes f z
+  tyEq :: (IsTyConstraint f a, IsTyConstraint f b) =>
+          f a -> f b -> Maybe (a :=: b)
+
+class Yes2 (f :: * -> * -> *) a b
+instance Yes2 f a b
+
+-- | Type class for typed type representations
+class IsTy2 f where
+  type IsTy2Constraint f u v :: Constraint
+  type IsTy2Constraint f u v = Yes2 f u v
+  tyEq2 :: (IsTy2Constraint f a b, IsTy2Constraint f c d) =>
+           f a b -> f c d -> Maybe (a :=: c, b :=: d)
