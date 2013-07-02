@@ -38,4 +38,4 @@ class IsTy2 f where
   type IsTy2Constraint f u v :: Constraint
   type IsTy2Constraint f u v = Yes2 f u v
   tyEq2 :: (IsTy2Constraint f a b, IsTy2Constraint f c d) =>
-           f a b -> f c d -> Maybe (a :=: c, b :=: d)
+           f a b -> f c d -> Maybe ((a,b) :=: (c,d))
