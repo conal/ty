@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, ScopedTypeVariables #-}
+{-# LANGUAGE TypeOperators, TypeFamilies, ScopedTypeVariables #-}
 {-# LANGUAGE GADTs, PatternGuards #-}
 {-# LANGUAGE KindSignatures #-} -- AsPairTy
 
@@ -35,6 +35,7 @@ data Ty a = Ty { tyRep :: TypeRep } deriving Eq
 instance Show (Ty a) where show = show . tyRep
 
 instance IsTy Ty where
+  type IsTyConstraint Ty z = Yes Ty z
   Ty a `tyEq` Ty b | a == b    = unsafeCoerce (Just Refl)
                    | otherwise = Nothing
 

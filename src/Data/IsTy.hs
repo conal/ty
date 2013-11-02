@@ -14,7 +14,7 @@
 -- Type class for typed type representations
 ----------------------------------------------------------------------
 
-module Data.IsTy (IsTy(..),IsTy2(..)) where
+module Data.IsTy (IsTy(..),IsTy2(..),Yes,Yes2) where
 
 import GHC.Prim (Constraint)
 
