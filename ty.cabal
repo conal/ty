@@ -1,5 +1,5 @@
 Name:                ty
-Version:             0.1.5
+Version:             0.1.6
 Synopsis:            Typed type representations and equality proofs
 Category:            Data
 Cabal-Version:       >= 1.6
