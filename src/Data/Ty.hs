@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeOperators, TypeFamilies, ScopedTypeVariables #-}
-{-# LANGUAGE GADTs, PatternGuards #-}
+{-# LANGUAGE GADTs, PatternGuards, ConstraintKinds #-}
 {-# LANGUAGE KindSignatures #-} -- AsPairTy
 
 {-# OPTIONS_GHC -Wall #-}
