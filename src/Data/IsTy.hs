@@ -16,7 +16,7 @@
 
 module Data.IsTy (IsTy(..),IsTy2(..),Yes,Yes2) where
 
-import GHC.Prim (Constraint)
+import GHC.Exts (Constraint)
 
 import Data.Proof.EQ ((:=:))
 
