@@ -30,5 +30,3 @@ Library
                        Data.IsTy
                        Data.Ty
   ghc-options:         -Wall
-
- ghc-prof-options:    -prof -auto-all 
